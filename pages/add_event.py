@@ -27,14 +27,14 @@ def show_add_event_page():
                         job_title = ui.input(
                             label='Job Title *',
                             placeholder='e.g., Senior Software Engineer, Product Manager, UX Designer'
-                        ).classes('modern-input w-full text-lg').props('outlined dense')
+                        ).classes('form-input w-full')
                         
                         # Company Name with icon
                         with ui.row().classes('w-full items-end space-x-4'):
                             company = ui.input(
                                 label='Company Name *',
                                 placeholder='Your amazing company name'
-                            ).classes('modern-input flex-1 text-lg').props('outlined dense')
+                            ).classes('form-input flex-1')
                             
                             ui.button(icon='business', on_click=lambda: ui.notify('Company profile coming soon!')).props('flat').classes('text-primary mb-2')
                         
@@ -44,20 +44,20 @@ def show_add_event_page():
                                 label='Job Type *',
                                 options=['Full-time', 'Part-time', 'Contract', 'Temporary', 'Internship', 'Freelance'],
                                 value='Full-time'
-                            ).classes('modern-select flex-1').props('outlined dense')
+                            ).classes('form-input flex-1')
                             
                             experience_level = ui.select(
                                 label='Experience Level *',
                                 options=['Entry Level', 'Mid Level', 'Senior', 'Lead', 'Manager', 'Executive'],
                                 value='Mid Level'
-                            ).classes('modern-select flex-1').props('outlined dense')
+                            ).classes('form-input flex-1')
                         
                         # Location with remote toggle
                         with ui.row().classes('w-full items-end gap-4'):
                             location = ui.input(
                                 label='Location *',
                                 placeholder='e.g., New York, NY or Worldwide'
-                            ).classes('modern-input flex-1').props('outlined dense')
+                            ).classes('form-input flex-1')
                             
                             with ui.column().classes('items-center'):
                                 remote_ok = ui.switch('Remote Position', value=False).classes('text-primary')
@@ -76,28 +76,28 @@ def show_add_event_page():
                                 label='Minimum Salary ($) *',
                                 format='%.0f',
                                 min=0,
-                                placeholder='50000'
-                            ).classes('modern-input flex-1').props('outlined dense')
+                                value=50000
+                            ).classes('form-input flex-1')
                             
                             max_salary = ui.number(
                                 label='Maximum Salary ($) *',
                                 format='%.0f',
                                 min=0,
-                                placeholder='120000'
-                            ).classes('modern-input flex-1').props('outlined dense')
+                                value=120000
+                            ).classes('form-input flex-1')
                         
                         # Salary Period
                         salary_period = ui.select(
                             label='Payment Period',
                             options=['per year', 'per month', 'per hour', 'per project'],
                             value='per year'
-                        ).classes('modern-select w-48').props('outlined dense')
+                        ).classes('form-input w-48')
                         
                         # Benefits with enhanced textarea
                         benefits = ui.textarea(
                             label='Benefits & Perks',
                             placeholder='🏥 Health insurance\n🦷 Dental coverage\n💰 401(k) matching\n🏖️ Unlimited PTO\n🏠 Remote work options\n📚 Learning budget'
-                        ).classes('modern-input w-full').props('outlined').style('min-height: 120px')
+                        ).classes('form-input w-full').style('min-height: 120px')
                 
                 # Step 3: Job Description & Requirements
                 with ui.card().classes('w-full p-6 bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200'):
@@ -110,13 +110,13 @@ def show_add_event_page():
                         job_description = ui.textarea(
                             label='Job Description *',
                             placeholder='🎯 What will this person do?\n\n• Lead product development initiatives\n• Collaborate with cross-functional teams\n• Drive innovation and technical excellence\n• Mentor junior team members\n\nDescribe the role, responsibilities, and what makes this opportunity exciting!'
-                        ).classes('modern-input w-full').props('outlined').style('min-height: 200px')
+                        ).classes('form-input w-full').style('min-height: 200px')
                         
                         # Requirements with enhanced styling
                         requirements = ui.textarea(
                             label='Requirements & Qualifications *',
                             placeholder='🎓 What are you looking for?\n\nRequired:\n• 5+ years of experience in...\n• Proficiency in Python, JavaScript\n• Strong communication skills\n\nPreferred:\n• Experience with cloud platforms\n• Leadership experience\n• Bachelor\'s degree in...'
-                        ).classes('modern-input w-full').props('outlined').style('min-height: 180px')
+                        ).classes('form-input w-full').style('min-height: 180px')
                         
                         # Skills tags input
                         with ui.column().classes('w-full space-y-3'):
@@ -124,8 +124,8 @@ def show_add_event_page():
                             with ui.row().classes('w-full items-center gap-2'):
                                 skill_input = ui.input(
                                     placeholder='Add skill (e.g., Python, React, Leadership)'
-                                ).classes('modern-input flex-1').props('outlined dense')
-                                ui.button('+ Add Skill', on_click=lambda: add_skill_tag()).classes('btn-primary')
+                                ).classes('form-input flex-1')
+                                ui.button('+ Add Skill', on_click=lambda: add_skill_tag()).classes('btn btn-primary')
                             
                             # Skills display area
                             with ui.row().classes('flex-wrap gap-2 mt-2') as skills_display:
@@ -144,21 +144,21 @@ def show_add_event_page():
                         application_email = ui.input(
                             label='Contact Email *',
                             placeholder='careers@yourcompany.com'
-                        ).classes('modern-input w-full').props('outlined dense type=email')
+                        ).classes('form-input w-full')
                         
                         # Application URL
                         application_url = ui.input(
                             label='Application URL (optional)',
                             placeholder='https://yourcompany.com/careers/apply'
-                        ).classes('modern-input w-full').props('outlined dense')
+                        ).classes('form-input w-full')
                         
                         # Application deadline
                         from datetime import datetime, timedelta
                         default_deadline = (datetime.now() + timedelta(days=30)).strftime('%Y-%m-%d')
+                        ui.label('Application Deadline').classes('text-sm font-medium text-gray-700 mb-1')
                         deadline = ui.date(
-                            label='Application Deadline',
                             value=default_deadline
-                        ).classes('modern-input w-64').props('outlined dense')
+                        ).classes('form-input w-64')
                 
                 # Enhanced Form Actions with modern styling
                 with ui.card().classes('w-full mt-8 p-6 bg-gradient-to-r from-gray-50 to-white border border-gray-200'):
@@ -172,21 +172,21 @@ def show_add_event_page():
                                 '🗑️ Clear Form',
                                 on_click=lambda: clear_form_with_confirmation(),
                                 color='gray'
-                            ).classes('btn-secondary px-6 py-3')
+                            ).classes('btn btn-secondary px-6 py-3')
                             
                             # Preview Button
                             ui.button(
                                 '👁️ Preview Job',
                                 on_click=lambda: show_enhanced_preview(),
                                 color='primary'
-                            ).classes('btn-secondary px-6 py-3')
+                            ).classes('btn btn-secondary px-6 py-3')
                             
                             # Submit Button with enhanced styling
                             ui.button(
                                 '🚀 Publish Job',
                                 on_click=lambda: validate_and_submit_enhanced(),
                                 color='positive'
-                            ).classes('btn-primary px-8 py-3 text-lg font-bold shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300')
+                            ).classes('btn btn-primary px-8 py-3 text-lg font-bold')
 
 # Helper functions for enhanced form functionality
 def add_skill_tag():
@@ -210,7 +210,7 @@ def show_enhanced_preview():
 def validate_and_submit_enhanced():
     """Enhanced validation and submission with better UX."""
     ui.notify('🎉 Job posted successfully! Redirecting...', type='positive')
-    ui.timer(2.0, lambda: ui.open('/jobs'), once=True)
+    ui.timer(2.0, lambda: ui.navigate.to('/jobs'), once=True)
 
 def validate_and_submit(**fields):
     """Validate form fields before submission."""

@@ -1,0 +1,236 @@
+/* static/jobcamp_theme.css */
+
+/* 1. Core Variables & Typography */
+:root {
+    --jc-primary: #ff5a5f; /* JobCamp Red/Pink */
+    --jc-secondary: #0066ff; /* JobCamp Blue */
+    --jc-dark: #1a202c;      /* Dark text */
+    --jc-body-text: #4a5568; /* Body text */
+    --jc-gray: #f7fafc;      /* Light gray background */
+    --jc-light-gray: #f0f5ff; /* Very light blue background */
+    --jc-border-color: #e2e8f0; /* Border color */
+    --jc-font-sans: 'Poppins', sans-serif; /* Matching JobCamp's font */
+    --jc-success: #10b981; /* Success green */
+    --jc-warning: #f59e0b; /* Warning amber */
+    --jc-error: #ef4444;   /* Error red */
+}
+
+/* Import Poppins font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+body {
+    font-family: var(--jc-font-sans);
+    color: var(--jc-body-text);
+    line-height: 1.7;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--jc-font-sans);
+    color: var(--jc-dark);
+    font-weight: 700;
+}
+
+/* 2. Button Styles */
+.btn {
+    display: inline-block;
+    font-weight: 600;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.5rem; /* 8px - JobCamp style */
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: var(--jc-primary);
+    border-color: var(--jc-primary);
+}
+
+.btn-primary:hover {
+    background-color: #e6484d; /* Darker red/pink */
+    border-color: #e6484d;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-secondary {
+    color: var(--jc-secondary);
+    background-color: transparent;
+    border-color: var(--jc-border-color);
+}
+
+.btn-secondary:hover {
+    background-color: var(--jc-light-gray);
+    color: var(--jc-secondary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.btn-outline {
+    color: var(--jc-primary);
+    background-color: transparent;
+    border-color: var(--jc-primary);
+}
+
+.btn-outline:hover {
+    background-color: var(--jc-primary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* 3. Card Styles */
+.job-card {
+    background-color: #fff;
+    border: 1px solid var(--jc-border-color);
+    border-radius: 0.5rem; /* 8px - JobCamp style */
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.job-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border-color: var(--jc-primary);
+}
+
+.job-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background-color: var(--jc-primary);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.3s ease;
+}
+
+.job-card:hover::before {
+    transform: scaleY(1);
+}
+
+.featured-card {
+    border-color: var(--jc-primary);
+    background-color: rgba(255, 90, 95, 0.02);
+}
+
+.featured-card::after {
+    content: 'Featured';
+    position: absolute;
+    top: 1rem;
+    right: -2rem;
+    background-color: var(--jc-primary);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 2rem;
+    transform: rotate(45deg);
+}
+
+/* 4. Form Input Styles */
+.form-input {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--jc-dark);
+    background-color: #f7fafc;
+    background-clip: padding-box;
+    border: 1px solid var(--jc-border-color);
+    border-radius: 0.5rem; /* 8px - JobCamp style */
+    transition: all 0.3s ease-in-out;
+}
+
+.form-input:focus {
+    color: var(--jc-dark);
+    background-color: #fff;
+    border-color: var(--jc-primary);
+    outline: 0;
+    box-shadow: 0 0 0 3px rgba(255, 90, 95, 0.15);
+}
+
+/* 5. Search Form Styles */
+.search-form {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 0.5rem;
+    border: 1px solid var(--jc-border-color);
+}
+
+.search-input-group {
+    display: flex;
+    align-items: center;
+    background-color: #f7fafc;
+    border-radius: 0.375rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.search-input-group:focus-within {
+    background-color: white;
+    border-color: var(--jc-primary);
+    box-shadow: 0 0 0 3px rgba(255, 90, 95, 0.1);
+}
+
+.search-input {
+    border: none;
+    background: transparent;
+    width: 100%;
+    padding: 0.5rem 0;
+    color: var(--jc-dark);
+    font-size: 0.875rem;
+}
+
+.search-input:focus {
+    outline: none;
+}
+
+/* 6. Badge Styles */
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 9999px;
+    transition: all 0.2s ease-in-out;
+}
+
+.badge-primary {
+    color: white;
+    background-color: var(--jc-primary);
+}
+
+.badge-secondary {
+    color: var(--jc-secondary);
+    background-color: rgba(0, 102, 255, 0.1);
+}
+
+.badge-success {
+    color: white;
+    background-color: var(--jc-success);
+}
+
+.badge-outline {
+    color: var(--jc-primary);
+    background-color: transparent;
+    border: 1px solid var(--jc-primary);
+}

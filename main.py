@@ -1,8 +1,24 @@
+import os
+import sys
+
+# Add the project root to the Python path
+project_root = os.path.dirname(os.path.abspath(__file__))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
 from nicegui import ui, app
 from pages.view_event import show_event_page
 from pages.edit_event import show_edit_event_page
 from pages.add_event import show_add_event_page, global_job_listings
 from pages.home import show_home_page
+from pages.login import show_login_page
+from pages.signup import show_signup_page
+from pages.jobs import show_jobs_page
+from pages.companies import show_companies_page
+from pages.contact import show_contact_page
+from pages.candidate_profile import show_candidate_profile_page, show_candidate_list_page
+from pages.company_profile import show_company_profile_page, show_company_list_page
+from pages.edit_candidate_profile import show_edit_candidate_profile_page
 
 # Add custom CSS
 ui.add_head_html('''
@@ -11,6 +27,7 @@ ui.add_head_html('''
 <style>
     /* Import our custom styles */
     @import url("/static/styles.css");
+    @import url("/static/jobcamp_theme.css");
     
     /* Additional modern enhancements */
     .q-card {
@@ -63,19 +80,23 @@ ui.colors(
 
 @ui.page('/')
 def home_page():
-    show_home_page()  # This will show the jobs listing
+    show_home_page()
 
 @ui.page('/home')
 def home_redirect():
-    ui.open('/')
+    ui.navigate.to('/')
 
 @ui.page('/jobs')
 def jobs_page():
-    show_home_page()  # Show the jobs listing page
+    show_jobs_page()
 
 @ui.page('/jobs/{job_id}')
 def view_job_page(job_id: str):
     show_event_page(job_id=job_id)
+
+@ui.page('/companies')
+def companies_page():
+    show_companies_page()
     
 @ui.page('/post-job')
 def post_job_page():
@@ -85,5 +106,82 @@ def post_job_page():
 def edit_job_page():
     show_edit_event_page()
 
+@ui.page('/edit-job/{job_id}')
+def edit_specific_job_page(job_id: str):
+    show_edit_event_page(job_id=job_id)
+
+@ui.page('/contact')
+def contact_page():
+    show_contact_page()
+
+@ui.page('/login')
+def login_page():
+    show_login_page()
+
+@ui.page('/signin')
+def signin_redirect():
+    ui.navigate.to('/login')
+
+@ui.page('/new_event')
+def new_event_page():
+    # Redirect to the post-job page which shows the add event form
+    ui.navigate.to('/post-job')
+
+@ui.page('/signup')
+def signup_page():
+    """Show the signup page."""
+    show_signup_page()
+
+@ui.page('/candidates')
+def candidates_page():
+    """Show the candidates list page."""
+    show_candidate_list_page()
+
+@ui.page('/candidates-profile-simple')
+def candidates_profile_simple_page():
+    """Redirect to candidates list page."""
+    ui.navigate.to('/candidates')
+
+@ui.page('/candidates_profile_simple')
+def candidates_profile_simple_underscore_page():
+    """Redirect to candidates list page."""
+    ui.navigate.to('/candidates')
+
+@ui.page('/candidates_profile')
+def candidates_profile_underscore_page():
+    """Redirect to candidates list page."""
+    ui.navigate.to('/candidates')
+
+@ui.page('/candidate-profile/{candidate_id}')
+def candidate_profile_page(candidate_id: str):
+    """Show individual candidate profile."""
+    show_candidate_profile_page(candidate_id)
+
+@ui.page('/company-profile/{company_id}')
+def company_profile_page(company_id: str):
+    """Show individual company profile."""
+    show_company_profile_page(company_id)
+
+@ui.page('/candidate-profile/{candidate_id}/edit')
+def edit_candidate_profile_page(candidate_id: str):
+    """Edit candidate profile."""
+    show_edit_candidate_profile_page(candidate_id)
+
+@ui.page('/company-list')
+def company_list_page():
+    """Show the companies list page."""
+    show_company_list_page()
+
 if __name__ in {"__main__", "__mp_main__"}:
-    ui.run(title="JobCamp - Find Your Dream Job", favicon="🚀", dark=False)
+    print("Starting JobCamp application...")
+    print(f"Python executable: {sys.executable}")
+    print(f"Working directory: {os.getcwd()}")
+    
+    ui.run(
+        title="JobCamp - Find Your Dream Job",
+        favicon="🚀",
+        port=8081,
+        show=True,
+        reload=True,  # Disable auto-reload for cleaner output
+        dark=False
+    )

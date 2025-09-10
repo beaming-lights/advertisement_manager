@@ -25,7 +25,7 @@ def show_event_page(job_id: str = None):
         with ui.column().classes('w-full max-w-4xl mx-auto p-6'):
             ui.label('Job Not Found').classes('text-2xl font-bold text-red-600')
             ui.label('The requested job could not be found or may have been removed.')
-            ui.button('Back to Jobs', on_click=lambda: ui.open('/jobs')).classes('mt-4')
+            ui.button('Back to Jobs', on_click=lambda: ui.navigate.to('/jobs')).classes('btn btn-secondary mt-4')
         return
     
     with ui.column().classes('w-full max-w-6xl mx-auto p-4 md:p-8'):
@@ -71,16 +71,16 @@ def show_event_page(job_id: str = None):
                     
                     # Enhanced Apply Buttons
                     with ui.row().classes('space-x-3'):
-                        ui.button('🔖 Save Job', on_click=lambda: ui.notify('Job saved!', type='positive')).classes('bg-white/20 text-white border-white/30 hover:bg-white/30 transition-all')
+                        ui.button('🔖 Save Job', on_click=lambda: ui.notify('Job saved!', type='positive')).classes('btn btn-secondary')
                         
                         if job.get('application_url'):
                             ui.button('🚀 Apply Now', 
-                                    on_click=lambda: ui.open(job['application_url']),
-                                    color='positive').classes('bg-white text-primary font-bold px-8 py-3 hover:bg-gray-100 transition-all transform hover:scale-105')
+                                    on_click=lambda: ui.navigate.to(job['application_url']),
+                                    color='positive').classes('btn btn-primary px-8 py-3')
                         else:
                             ui.button('📧 Apply by Email',
                                     on_click=lambda: ui.notify(f"Send your application to: {job['contact_email']}", type='info'),
-                                    color='positive').classes('bg-white text-primary font-bold px-8 py-3 hover:bg-gray-100 transition-all transform hover:scale-105')
+                                    color='positive').classes('btn btn-primary px-8 py-3')
         
         # Enhanced Main Content with modern cards
         with ui.row().classes('w-full gap-8'):
@@ -179,13 +179,13 @@ def show_event_page(job_id: str = None):
                         
                         if job.get('application_url'):
                             ui.button('🌐 Apply Online', 
-                                     on_click=lambda: ui.open(job['application_url']),
-                                     color='positive').classes('w-full btn-primary mb-2')
+                                     on_click=lambda: ui.navigate.to(job['application_url']),
+                                     color='positive').classes('w-full btn btn-primary mb-2')
                             ui.label('or').classes('text-center text-gray-500 my-2')
                         
                         ui.button('📧 Email Application',
                                 on_click=lambda: ui.notify(f"Send your application to: {job['contact_email']}", type='info'),
-                                color='primary').classes('w-full btn-secondary')
+                                color='primary').classes('w-full btn btn-secondary')
                         
                         # Application tips
                         with ui.expansion('💡 Application Tips', icon='lightbulb').classes('w-full mt-4'):
@@ -202,8 +202,8 @@ def show_event_page(job_id: str = None):
         with ui.card().classes('w-full mt-8 p-4 bg-gray-50'):
             with ui.row().classes('w-full justify-between items-center'):
                 ui.button('← Back to Jobs', 
-                         on_click=lambda: ui.open('/jobs'),
-                         color='gray').classes('btn-secondary')
+                         on_click=lambda: ui.navigate.to('/jobs'),
+                         color='gray').classes('btn btn-secondary')
                 
                 # Share buttons
                 with ui.row().classes('space-x-2'):
