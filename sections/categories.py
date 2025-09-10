@@ -16,7 +16,7 @@ def show_categories_section():
             
             with ui.row().classes('w-full justify-center gap-6 flex-wrap'):
                 for cat in categories:
-                    with ui.card().classes('w-64 bg-white p-8 rounded-2xl shadow-md hover:shadow-xl transition cursor-pointer group'):
-                        ui.icon(cat['icon'], size='xl', color='blue-600').classes('mb-4 group-hover:scale-110 transition')
+                    with ui.card().classes('w-30 bg-white p-8 rounded-2xl shadow-md hover:shadow-xl transition cursor-pointer group'):
+                        ui.icon(cat['icon'], size='xl', color='green-300').classes('mb-4 group-hover:scale-110 transition')
                         ui.label(cat['name']).classes('text-xl font-semibold text-gray-900 mb-2')
                         ui.label(f"{cat['jobs']} Jobs Available").classes('text-gray-600')

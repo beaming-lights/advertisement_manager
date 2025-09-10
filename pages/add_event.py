@@ -1,6 +1,8 @@
 from nicegui import ui, app
 from components.header import show_header
 from datetime import datetime
+from utils.api_client import api_client
+import json
 
 def show_add_event_page():
     """Displays a modern, enhanced form for posting new job listings."""
@@ -264,22 +266,84 @@ def validate_and_submit(**fields):
     })
 
 def post_job(job_data):
-    """Handle job posting submission."""
+    """Handle job posting submission with comprehensive error handling and user feedback."""
     try:
-        # Add to global job listings (temporary storage)
-        global_job_listings.append(job_data)
+        print("=== Starting job submission ===")
+        print("Job data before processing:", json.dumps(job_data, indent=2, default=str))
+        
+        # Ensure required fields are present
+        required_fields = ['title', 'company', 'location', 'description']
+        missing_fields = [field for field in required_fields if not job_data.get(field)]
+        if missing_fields:
+            raise ValueError(f"Missing required fields: {', '.join(missing_fields)}")
+        
+        # Process salary fields
+        if 'salary_min' in job_data and job_data['salary_min']:
+            try:
+                job_data['salary_min'] = int(float(job_data['salary_min']))
+            except (ValueError, TypeError) as e:
+                print(f"Warning: Could not convert salary_min to int: {e}")
+                job_data['salary_min'] = None
+                
+        if 'salary_max' in job_data and job_data['salary_max']:
+            try:
+                job_data['salary_max'] = int(float(job_data['salary_max']))
+            except (ValueError, TypeError) as e:
+                print(f"Warning: Could not convert salary_max to int: {e}")
+                job_data['salary_max'] = None
+        
+        # Add timestamp if not present
+        if 'posted_date' not in job_data:
+            job_data['posted_date'] = datetime.now().isoformat()
+        
+        print("Job data after processing:", json.dumps(job_data, indent=2, default=str))
+            
+        # Post job to the API
+        print("Sending job data to API...")
+        response = api_client.post_job(job_data)
+        print("API Response received:", json.dumps(response, indent=2, default=str) if response else "No response")
+        
+        if not response:
+            raise Exception("Received empty response from API")
+        
+        # Check for error in response
+        if isinstance(response, dict) and 'error' in response:
+            raise Exception(f"API Error: {response.get('error', 'Unknown error')}")
+            
+        # Force refresh the global cache
+        print("Refreshing job listings...")
+        updated_listings = get_global_job_listings()
+        print(f"Updated job listings count: {len(updated_listings) if updated_listings else 0}")
         
         # Show success message
-        ui.notify('✅ Job posted successfully!', type='positive')
+        success_msg = '🎉 Job posted successfully!'
+        print(success_msg)
+        ui.notify(success_msg, type='positive')
         
-        # Clear form
+        # Clear the form
         clear_form()
         
-        # Redirect to jobs page after a short delay
-        ui.timer(1.5, lambda: ui.open('/jobs'), once=True)
+        # Navigate to jobs page after a short delay
+        def navigate_to_jobs():
+            print("Navigating to jobs page...")
+            ui.navigate.to('/jobs')
+        
+        # Add a small delay to ensure the user sees the success message
+        ui.timer(1.5, navigate_to_jobs, once=True)
         
     except Exception as e:
-        ui.notify(f'❌ Error posting job: {str(e)}', type='negative')
+        error_msg = f'❌ Error posting job: {str(e)}'
+        print(error_msg)
+        
+        # More detailed error for the console
+        import traceback
+        traceback.print_exc()
+        
+        # User-friendly error message
+        ui.notify(error_msg, type='negative', 
+                 close_button='OK', 
+                 position='top',
+                 timeout=10000)  # Show for 10 seconds
 
 def clear_form(fields=None):
     """Clear all form fields."""
@@ -330,5 +394,43 @@ def show_preview(job_data):
     
     preview_dialog.open()
 
-# Temporary storage for job listings (replace with a database in production)
+# Global job listings cache
 global_job_listings = []
+
+def get_global_job_listings():
+    """Get job listings from the API and update the global cache."""
+    global global_job_listings
+    try:
+        print("Fetching jobs from API...")
+        response = api_client.get_jobs()
+        print(f"API Response: {response}")
+        
+        # Handle different response formats
+        if isinstance(response, list):
+            # If the response is already a list, use it directly
+            global_job_listings = response
+        elif isinstance(response, dict):
+            # If the response is a dictionary, check for common keys
+            if 'results' in response:
+                global_job_listings = response['results']
+            elif 'data' in response:
+                global_job_listings = response['data']
+            elif 'jobs' in response:
+                global_job_listings = response['jobs']
+            else:
+                # If no standard key is found, try to use the entire response as a list
+                global_job_listings = [response]
+        else:
+            global_job_listings = []
+            
+        print(f"Found {len(global_job_listings)} jobs")
+        if global_job_listings:
+            print(f"First job: {global_job_listings[0]}")
+            
+        return global_job_listings
+        
+    except Exception as e:
+        error_msg = f"Failed to fetch jobs: {str(e)}"
+        print(error_msg)
+        ui.notify(error_msg, type='negative')
+        return []

@@ -1,7 +1,8 @@
 from nicegui import ui
 from components.header import show_header
 from components.footer import show_footer
-from pages.add_event import global_job_listings
+from pages.add_event import get_global_job_listings
+from utils.api_client import api_client
 
 def show_jobs_page():
     """Creates the page for displaying all job listings."""
@@ -9,8 +10,25 @@ def show_jobs_page():
 
     with ui.column().classes('w-full max-w-7xl mx-auto p-4 md:p-8'):
         ui.label('All Jobs').classes('text-4xl lg:text-5xl font-bold text-gray-900 text-center mb-16')
+        
+        # Debug info
+        debug_info = ui.label('Loading jobs...').classes('text-sm text-gray-500 mb-4')
+        
+        try:
+            # Fetch jobs from API
+            job_listings = get_global_job_listings()
+            debug_info.set_text(f'Found {len(job_listings) if job_listings else 0} jobs')
+            
+            # Log the first job for debugging
+            if job_listings:
+                print("First job data:", job_listings[0])
+        except Exception as e:
+            error_msg = f'Error loading jobs: {str(e)}'
+            print(error_msg)
+            debug_info.set_text(error_msg).classes('text-red-500')
+            job_listings = []
 
-        if not global_job_listings:
+        if not job_listings:
             with ui.card().classes('w-full p-12 text-center border border-gray-200'):
                 ui.icon('work_off', size='xl', color='gray-400').classes('mx-auto mb-4')
                 ui.label('No jobs posted yet').classes('text-xl font-medium text-gray-600 mb-2')
@@ -18,7 +36,7 @@ def show_jobs_page():
                 ui.button('Post a Job', on_click=lambda: ui.navigate.to('/post-job')).classes('btn btn-primary mt-6')
         else:
             with ui.column().classes('w-full gap-6'):
-                for job in global_job_listings:
+                for job in job_listings:
                     with ui.card().classes('w-full p-6 hover:shadow-lg transition-shadow duration-300'):
                         with ui.row().classes('w-full items-start'):
                             with ui.column().classes('flex-1'):
@@ -42,8 +60,5 @@ def show_jobs_page():
                             
                             ui.button('Apply', on_click=lambda j=job: ui.navigate.to(f"/jobs/{j.get('id', '')}")) \
                                 .classes('mt-4 bg-emerald-600 hover:bg-emerald-700 text-white')
-            with ui.row().classes('w-full gap-6 flex-wrap justify-center'):
-                for job in global_job_listings:
-                    create_jobcamp_job_card(job)
 
     show_footer()
