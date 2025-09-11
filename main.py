@@ -19,6 +19,8 @@ from pages.contact import show_contact_page
 from pages.candidate_profile import show_candidate_profile_page, show_candidate_list_page
 from pages.company_profile import show_company_profile_page, show_company_list_page
 from pages.edit_candidate_profile import show_edit_candidate_profile_page
+from pages.view_job import show_view_job_page
+from pages.debug_api import show_debug_api_page
 
 # Add custom CSS
 ui.add_head_html('''
@@ -90,9 +92,9 @@ def home_redirect():
 def jobs_page():
     show_jobs_page()
 
-@ui.page('/jobs/{job_id}')
+@ui.page('/view-job/{job_id}')
 def view_job_page(job_id: str):
-    show_event_page(job_id=job_id)
+    show_view_job_page(job_id=job_id)
 
 @ui.page('/companies')
 def companies_page():
@@ -172,16 +174,26 @@ def company_list_page():
     """Show the companies list page."""
     show_company_list_page()
 
+@ui.page('/debug-api')
+def debug_api_page():
+    """Show the API debug page."""
+    show_debug_api_page()
+
+# Configure static files
+app.add_static_files('/static', 'static')
+
 if __name__ in {"__main__", "__mp_main__"}:
     print("Starting JobCamp application...")
     print(f"Python executable: {sys.executable}")
     print(f"Working directory: {os.getcwd()}")
+    print(f"Static files directory: {os.path.join(os.getcwd(), 'static')}")
     
     ui.run(
         title="JobCamp - Find Your Dream Job",
-        favicon="🚀",
+        # favicon="static/favicon.ico",
         port=8081,
         show=True,
-        reload=True,  # Disable auto-reload for cleaner output
-        dark=False
+        reload=False,  # Disable auto-reload for cleaner output
+        dark=False,
+        storage_secret="your-secret-key-here"
     )
