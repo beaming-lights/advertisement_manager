@@ -3,8 +3,16 @@ from components.header import show_header
 from datetime import datetime
 from utils.api_client import api_client
 import json
+import requests
+from utils.api import base_url
 
 def show_add_event_page():
+    flyer_content = None
+
+    def handle_flyer_upload(e):
+        nonlocal flyer_content
+        flyer_content = e.content
+
     """Displays a modern, enhanced form for posting new job listings."""
     show_header()
     
@@ -161,6 +169,7 @@ def show_add_event_page():
                         deadline = ui.date(
                             value=default_deadline
                         ).classes('form-input w-64')
+                        ui.upload(on_upload=handle_flyer_upload)
                 
                 # Enhanced Form Actions with modern styling
                 with ui.card().classes('w-full mt-8 p-6 bg-gradient-to-r from-gray-50 to-white border border-gray-200'):
@@ -186,7 +195,23 @@ def show_add_event_page():
                             # Submit Button with enhanced styling
                             ui.button(
                                 '🚀 Publish Job',
-                                on_click=lambda: validate_and_submit_enhanced(),
+                                on_click=lambda:validate_and_submit_enhanced({
+                                    'job_title': job_title.value,
+                                    'company': company.value,
+                                    'job_type': job_type.value,
+                                    'location': location.value,
+                                    'is_remote': remote_ok.value,
+                                    'min_salary': min_salary.value,
+                                    'max_salary': max_salary.value,
+                                    'benefits': benefits.value,
+                                    'description': job_description.value,
+                                    'requirements': requirements.value,
+                                    'contact_email': application_email.value,
+                                    'application_url': application_url.value,
+                                    'flyer':flyer_content,
+                                    'posted_date': datetime.now().strftime('%Y-%m-%d'),
+                                    'id': f"job_{len(global_job_listings) + 1}"
+                                }),
                                 color='positive'
                             ).classes('btn btn-primary px-8 py-3 text-lg font-bold')
 
@@ -209,10 +234,12 @@ def show_enhanced_preview():
     """Show enhanced job preview with better styling."""
     ui.notify('Opening enhanced preview...', type='info')
 
-def validate_and_submit_enhanced():
+def validate_and_submit_enhanced(data):
+    response = requests.post(f"{base_url}/jobs", data)
+    print(response.status_code)
     """Enhanced validation and submission with better UX."""
-    ui.notify('🎉 Job posted successfully! Redirecting...', type='positive')
-    ui.timer(2.0, lambda: ui.navigate.to('/jobs'), once=True)
+    # ui.notify('🎉 Job posted successfully! Redirecting...', type='positive')
+    # ui.timer(2.0, lambda: ui.navigate.to('/jobs'), once=True)
 
 def validate_and_submit(**fields):
     """Validate form fields before submission."""
