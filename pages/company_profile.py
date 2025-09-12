@@ -1,6 +1,7 @@
 from nicegui import ui
 from components.header import show_header
 from components.footer import show_footer
+# Removed page_header import as it's no longer needed
 from pages.add_event import global_job_listings
 
 # Sample company data
@@ -78,26 +79,32 @@ def show_company_profile_page(company_id: str = None):
             ui.button('Back to Companies', on_click=lambda: ui.navigate.to('/companies'))
         return
     
-    with ui.column().classes('w-full min-h-screen bg-gray-50'):
-        # Cover Image and Header
-        with ui.element('div').classes('relative w-full h-64 bg-gradient-to-r from-blue-600 to-purple-600'):
-            # Cover Image
-            ui.image(company['cover_image']).classes('w-full h-full object-cover opacity-80')
-            
-            # Company Header Overlay
-            with ui.element('div').classes('absolute inset-0 bg-black bg-opacity-40 flex items-end'):
-                with ui.row().classes('w-full max-w-7xl mx-auto p-8 items-end'):
-                    # Company Logo
-                    ui.image(company['logo']).classes('w-24 h-24 rounded-lg bg-white p-2 mr-6 shadow-lg')
-                    
-                    # Company Info
-                    with ui.column().classes('text-white'):
-                        ui.label(company['name']).classes('text-4xl font-bold mb-2')
-                        ui.label(company['tagline']).classes('text-xl opacity-90 mb-2')
-                        with ui.row().classes('items-center space-x-4 text-sm'):
-                            ui.label(f"📍 {company['location']}")
-                            ui.label(f"👥 {company['size']}")
-                            ui.label(f"🏢 Founded {company['founded']}")
+    # Company header with background
+    with ui.column().classes('w-full relative h-80 bg-cover bg-center'):
+        ui.image(company['cover_image']).classes('absolute inset-0 w-full h-full object-cover')
+        ui.element('div').classes('absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/20')
+        with ui.column().classes('relative z-10 h-full flex items-center'):
+            with ui.column().classes('container mx-auto px-4 sm:px-6 lg:px-8 py-12'):
+                ui.label(company['name']).classes('text-4xl md:text-5xl font-bold text-white')
+                if company.get('tagline'):
+                    ui.label(company['tagline']).classes('mt-2 text-lg md:text-xl text-white/90')
+    
+    # Main content
+    
+    with ui.column().classes('w-full min-h-screen bg-gray-50 -mt-20'):
+        # Company info card floating over the header
+        with ui.column().classes('w-full max-w-7xl mx-auto px-4 lg:px-8 relative z-10'):
+            with ui.row().classes('bg-white rounded-xl shadow-lg p-6 items-center -mt-16'):
+                # Company Logo
+                ui.image(company['logo']).classes('w-24 h-24 rounded-lg bg-white p-2 mr-6 shadow-lg')
+                
+                # Company Info
+                with ui.column():
+                    with ui.row().classes('items-center space-x-4'):
+                        ui.label(f"📍 {company['location']}").classes('text-gray-600')
+                        ui.label(f"👥 {company['size']}").classes('text-gray-600')
+                        ui.label(f"🏢 {company['industry']}").classes('text-gray-600')
+                        ui.label(f"📅 Founded {company['founded']}").classes('text-gray-600')
         
         # Main Content
         with ui.row().classes('w-full max-w-7xl mx-auto p-8 gap-8'):

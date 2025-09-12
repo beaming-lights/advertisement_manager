@@ -182,18 +182,22 @@ def debug_api_page():
 # Configure static files
 app.add_static_files('/static', 'static')
 
+# All routes are now defined with @ui.page decorators in their respective files
+
 if __name__ in {"__main__", "__mp_main__"}:
     print("Starting JobCamp application...")
     print(f"Python executable: {sys.executable}")
     print(f"Working directory: {os.getcwd()}")
     print(f"Static files directory: {os.path.join(os.getcwd(), 'static')}")
     
-    ui.run(
+    # Create static directory if it doesn't exist
+    os.makedirs('static', exist_ok=True)
+    
+ui.run(
         title="JobCamp - Find Your Dream Job",
-        # favicon="static/favicon.ico",
         port=8081,
         show=True,
-        reload=False,  # Disable auto-reload for cleaner output
+        reload=True,
         dark=False,
         storage_secret="your-secret-key-here"
     )

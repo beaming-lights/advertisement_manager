@@ -73,14 +73,14 @@ def show_mobile_menu():
     mobile_dialog.open()
 
 def show_header():
-    """Creates a modern job board header with enhanced design and interactivity."""
-    with ui.element('header').classes('w-full bg-white/80 backdrop-blur-sm shadow-sm sticky top-0 z-50 border-b border-gray-100'):
+    """Creates a modern job board header with glassmorphism effect."""
+    with ui.element('header').classes('w-full bg-white/90 backdrop-blur-lg fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-gray-200 shadow-sm'):
         with ui.row().classes('w-full max-w-7xl mx-auto px-4 lg:px-6 h-16 items-center'):
             # Logo and Brand
             with ui.link(target='#').classes('flex items-center space-x-3 no-underline group'):
                 with ui.row().classes('w-9 h-9 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-lg flex items-center justify-center transform transition-transform group-hover:rotate-12'):
                     ui.icon('work', color='white', size='1.2rem')
-                ui.label('JobCamp').classes('text-xl font-bold bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent')
+                ui.label('JobCamp').classes('text-xl font-bold text-gray-800')
                 ui.element('a').props('href=/')
             
             # Add click handler for the logo
@@ -101,7 +101,7 @@ def show_header():
                 ]
                 
                 for text, target in nav_links:
-                    ui.link(text, target).classes('text-gray-600 hover:text-emerald-600 font-medium transition-colors')
+                    ui.link(text, target).classes('text-gray-700 hover:text-emerald-600 font-medium transition-colors hover:bg-gray-100 px-3 py-2 rounded-lg')
                 
                 #  # About Link
                 # with ui.button_group().classes('relative group').on('click', lambda: ui.navigate.to('/about')):
