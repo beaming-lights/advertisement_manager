@@ -101,10 +101,6 @@ def submit_job(title, description, category, employment_type, location, salary_m
             'job_status': job_status.value
         }
         
-        # Add uploaded files to job data if available
-        if uploaded_files:
-            job_data['uploaded_files'] = uploaded_files
-        
         # Post job to API
         result = api_client.post_job(job_data)
         
