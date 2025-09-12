@@ -11,8 +11,8 @@ def show_categories_section():
     ]
     
     with ui.row().classes('w-full py-20 px-4 bg-gray-50'):
-        with ui.column().classes('w-full max-w-7xl mx-auto text-center'):
-            ui.label('Browse by Categories').classes('text-4xl font-bold text-gray-900 mb-16')
+        with ui.column().classes('w-full max-w-7xl mx-auto'):
+            ui.label('Browse by Categories').classes('text-4xl font-bold text-gray-900 mb-16 w-full text-center')
             
             with ui.row().classes('w-full justify-center gap-6 flex-wrap'):
                 for cat in categories:

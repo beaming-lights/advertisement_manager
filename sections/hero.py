@@ -31,26 +31,27 @@ def show_hero_section():
                 pass
         
         # Main content with proper spacing and containment
-        with ui.row().classes("w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20") as hero_content:
-            # Left content
-            with ui.column().classes("w-full lg:w-1/2 space-y-8 text-white"):
+        with ui.row().classes("w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 justify-center") as hero_content:
+            # Main content container
+            with ui.column().classes("w-full max-w-4xl mx-auto text-center px-4 space-y-8 text-white flex flex-col items-center"):
                 # Badge
-                with ui.row().classes("inline-flex items-center space-x-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-gray-200 shadow-sm"):
+                with ui.row().classes("inline-flex items-center space-x-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-gray-200 shadow-sm mx-auto"):
                     ui.icon("rocket_launch", size="sm", color=PRIMARY_COLOR)
                     ui.label("Join 10,000+ professionals").classes("text-sm font-medium text-gray-700")
                 
                 # Main heading with gradient text
-                ui.label("Find Your Dream").classes("text-4xl sm:text-5xl md:text-7xl lg:text-7xl font-bold leading-tight text-white")
-                ui.label("Job Today").classes(f"text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-bold leading-tight text-white mb-6")
+                with ui.column().classes("items-center w-full"):
+                    ui.label("Find Your Dream").classes("text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-tight text-white w-full")
+                    ui.label("Job Today").classes(f"text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-tight text-white mb-6 w-full")
                 
                 # Subheading
                 ui.label(
                     "Connect with top companies and land your next career opportunity. "
                     "We've helped over 50,000 professionals find their perfect match."
-                ).classes("text-lg text-white/90 max-w-2xl leading-relaxed mb-8")
+                ).classes("text-lg text-white/90 max-w-2xl mx-auto leading-relaxed mb-8")
                 
                 # Modern search bar with glass effect
-                with ui.column().classes("w-full max-w-3xl space-y-4 mb-8"):
+                with ui.column().classes("w-full max-w-2xl mx-auto space-y-4 mb-8"):
                     with ui.row().classes(
                         "w-full items-center bg-white/10 backdrop-blur-md rounded-xl shadow-lg p-1 border border-white/20"
                     ).style("box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);"):
@@ -88,8 +89,8 @@ def show_hero_section():
                 #             ui.icon(logo, size="md").classes("opacity-70 hover:opacity-100 transition-opacity")
                 
                 # Trusted by section with company logos
-                with ui.column().classes("mt-12 w-full"):
-                    ui.label("Trusted by leading companies").classes("text-sm text-white-500 mb-4 text-center")
+                with ui.column().classes("mt-12 items-center w-full"):
+                    ui.label("Trusted by leading corporations").classes("text-sm text-white-500 mb-4 text-center")
                     with ui.row().classes("flex flex-wrap justify-center items-center gap-6 md:gap-10 opacity-80"):
                         companies = ["Google", "Microsoft", "Amazon", "Netflix", "Adobe"]
                         for company in companies:
@@ -165,14 +166,14 @@ def show_hero_section():
                 # Section Header with animated underline
                 with ui.column().classes("text-center max-w-3xl mx-auto mb-16 relative"):
                     ui.label("WHY CHOOSE US").classes(
-                        "text-sm font-semibold tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-purple-500 mb-4"
+                        "text-sm font-semibold tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-green-500 to-blue-500 mb-4"
                     )
                     with ui.column().classes("relative inline-block"):
                         ui.label("Everything You Need to Succeed").classes(
                             "text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight"
                         )
                         ui.element('div').classes(
-                            "absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1.5 bg-gradient-to-r from-indigo-500 to-purple-500 "
+                            "absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1.5 bg-gradient-to-r from-green-500 to-blue-500 "
                             "transition-all duration-500 hover:w-32"
                         )
                     ui.label(
@@ -186,7 +187,7 @@ def show_hero_section():
                         {
                             "icon": "search_off",
                             "title": "Smart Job Matching",
-                            "desc": "Our AI-powered algorithm matches you with the perfect job opportunities based on your skills and preferences.",
+                            "desc": "Our AI-powered algorithm matches you with the perfect jobs based on your preferences.",
                             "color": "indigo"
                         },
                         {
@@ -205,7 +206,7 @@ def show_hero_section():
 
                     for feature in features:
                         with ui.column().classes(
-                            "group bg-white rounded-2xl p-8 text-left transition-all duration-500 "
+                            "group bg-white rounded-2xl p-8 text-left transition-all duration-500 shadow-xl "
                             "hover:shadow-xl hover:-translate-y-2 border border-gray-100 relative overflow-hidden"
                         ):
                             # Animated border on hover
@@ -338,15 +339,15 @@ def show_hero_section():
                 #             #     )
 
         # CTA Section
-        with ui.column().classes("w-full bg-gradient-to-r from-emerald-600 to-gray-800 py-16"):
-            with ui.column().classes("w-full max-w-4xl mx-auto px-4 text-center"):
+        with ui.column().classes("w-full bg-emerald-800 py-5"):
+            with ui.column().classes("w-full max-w-4xl mx-auto px-4 text-center items-center mt-6"):
                 ui.label("Ready to Get Started?").classes(
-                    "text-3xl md:text-4xl font-bold text-white mb-6"
+                    "text-3xl md:text-5xl font-bold text-white mb-3"
                 )
                 ui.label(
                     "Join thousands of professionals who found their dream jobs with us."
                 ).classes("text-lg text-emerald-100 mb-8 max-w-2xl mx-auto")
-                with ui.row().classes("flex flex-col sm:flex-row gap-4 mt-8"):
+                with ui.row().classes("flex flex-col sm:flex-row gap-4"):
                     ui.button(
                         "Find Jobs",
                         icon="search",
@@ -363,9 +364,10 @@ def show_hero_section():
                             "rounded-lg shadow-sm hover:shadow-md transition-all duration-300")
                 # Trust indicators
                 with ui.row().classes("mt-12 flex flex-wrap justify-center items-center gap-6 text-white/80 text-sm"):
-                    with ui.row().classes("flex items-center space-x-2"):
-                        ui.icon("star", size="1.25rem", color="#F59E0B").classes("text-yellow-400")
-                        ui.label("4.9/5.0 from 2,000+ reviews")
+                    with ui.row().classes("flex items-center"):
+                        for _ in range(5):
+                            ui.icon("star", size="1.25rem", color="#F59E0B").classes("text-yellow-400 -mx-0.5")
+                        ui.label("4.9/5.0 from 2,000+ reviews").classes("ml-1")
                     
                     with ui.row().classes("hidden sm:flex items-center space-x-2"):
                         ui.icon("groups", size="1.25rem")

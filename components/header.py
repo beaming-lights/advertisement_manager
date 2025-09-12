@@ -1,5 +1,6 @@
 from nicegui import ui
 from typing import Optional
+from sections.hero import PRIMARY_COLOR
 
 # Global state
 is_logged_in = False  # This would come from your auth system
@@ -78,7 +79,7 @@ def show_header():
         with ui.row().classes('w-full max-w-7xl mx-auto px-4 lg:px-6 h-16 items-center'):
             # Logo and Brand
             with ui.link(target='#').classes('flex items-center space-x-3 no-underline group'):
-                with ui.row().classes('w-9 h-9 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-lg flex items-center justify-center transform transition-transform group-hover:rotate-12'):
+                with ui.row().classes(f'w-9 h-9 bg-[{PRIMARY_COLOR}] rounded-lg flex items-center justify-center transform transition-transform group-hover:rotate-12'):
                     ui.icon('work', color='white', size='1.2rem')
                 ui.label('JobCamp').classes('text-xl font-bold text-gray-800')
                 ui.element('a').props('href=/')
@@ -119,8 +120,8 @@ def show_header():
             with ui.row().classes('flex-1 justify-end items-center'):
                 # Desktop Auth Buttons
                 with ui.row().classes('md:flex items-center space-x-4'):
-                    ui.link('Log In', '/login').classes('text-gray-600 hover:text-emerald-600 px-4 py-2')
-                    ui.link('Sign Up', '/signup').classes('bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-4 py-2 rounded hover:shadow-md transition-all')
+                    ui.link('Log In', '/login').classes('text-gray-600 hover:text-emerald-600 px-4 py-2 no-underline')
+                    ui.link('Sign Up', '/signup').classes('bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded hover:shadow-md transition-all no-underline')
                 
                 # Mobile menu button
                 with ui.button(icon='menu', on_click=show_mobile_menu).props('flat').classes('md:hidden'):
@@ -130,20 +131,15 @@ def show_header():
                 with ui.button(icon='search', on_click=None).props('flat').classes('md:hidden'):
                     ui.tooltip('Search jobs')
                 
-                # Post a job button
-                with ui.link().on('click', lambda: ui.navigate.to('/post-job')).classes(''):
-                    ui.button('Post a Job', icon='add') \
-                        .props('unelevated') \
-                        .classes('bg-gradient-to-r from-emerald-600 to-teal-500 text-white hover:shadow-md transition-all')
-                
+                # Post a job button removed as per request
                 # Auth buttons or user menu
                 if not is_logged_in:
                     with ui.row().classes('hidden md:flex items-center space-x-3 ml-4'):
                         ui.button('Log In', on_click=lambda: ui.navigate.to('/login')) \
                             .props('flat') \
-                            .classes('text-emerald-600 hover:bg-emerald-50')
+                            .classes('text-emerald-600 hover:bg-emerald-50 no-underline')
                         ui.button('Sign Up', on_click=lambda: ui.navigate.to('/signup')) \
-                            .classes('bg-gradient-to-r from-emerald-600 to-teal-500 text-white hover:shadow-md')
+                            .classes('bg-green-600 hover:bg-green-700 text-white hover:shadow-md no-underline')
                 else:
                     # User menu
                     with ui.menu() as user_menu:
